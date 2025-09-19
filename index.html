@@ -1,17 +1,27 @@
 <!doctype html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1"><meta charset="utf-8"><meta property="og:image" content="https://tc39.es/ecmarkup/ecma-logo.png"><meta property="og:title" content="Proposal Title Goes Here"><meta property="og:description" content="This is an emu-clause
-  This is an algorithm:
+<head><meta name="viewport" content="width=device-width, initial-scale=1"><meta charset="utf-8"><meta property="og:image" content="https://tc39.es/ecmarkup/ecma-logo.png"><meta property="og:title" content="Native Promise Adoption"><meta property="og:description" content="ECMAScript Data Types and Values
+
   
-    1. Let _proposal_ be *undefined*.
-    1. If IsAccepted(_proposal_) is *true*, then
-      1. Let _stage_ be *0*ℤ.
-    1. Else,
-      1. Let _stage_ be *-1*ℤ.
-    1. Return ? ToString(_stage_).">
+    ECMAScript Language Types
+
+    
+      The Object Type
+
+      
+        Well-Known Intrinsic Objects
+        
+          
+            
+              
+                
+                  Intrinsic Name
+                
+                
+                  Global">
 <link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Proposal Title Goes Here</title><script>'use strict';
+<title>Native Promise Adoption</title><script>'use strict';
 let sdoBox = {
   init() {
     this.$alternativeId = null;
@@ -874,7 +884,7 @@ let referencePane = {
     this.$pane.appendChild(this.$tableContainer);
 
     if (menu != null) {
-      menu.$specContainer.after(this.$container);
+      menu.$specContainer.appendChild(this.$container);
     }
   },
 
@@ -1206,9 +1216,6 @@ function doShortcut(e) {
     document.documentElement.classList.toggle('show-ao-annotations');
   } else if (e.key === '?') {
     document.getElementById('shortcuts-help').classList.toggle('active');
-  } else if (e.key === ';') {
-    let el = document.getElementById('bd75b99add5f');
-    if (el != null) el.remove();
   }
 }
 
@@ -1626,7 +1633,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{"sec-demo-clause":["_ref_0"]},"entries":[{"type":"clause","id":"sec-demo-clause","titleHTML":"This is an emu-clause","number":"1"},{"type":"op","aoid":"IsAccepted","refId":"sec-is-accepted"},{"type":"clause","id":"sec-is-accepted","title":"IsAccepted ( proposal )","titleHTML":"IsAccepted ( <var>proposal</var> )","number":"2","referencingIds":["_ref_0"]},{"type":"clause","id":"sec-copyright-and-software-license","title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A"}]}`);
+let biblio = JSON.parse(`{"refsByClause":{"sec-well-known-intrinsic-objects":["_ref_0"],"sec-promise-resolve-functions":["_ref_1","_ref_2","_ref_3","_ref_4"]},"entries":[{"type":"table","id":"table-well-known-intrinsic-objects","number":1,"caption":"Table 1: Well-Known Intrinsic Objects"},{"type":"clause","id":"sec-well-known-intrinsic-objects","titleHTML":"Well-Known Intrinsic Objects","number":"6.1.7.4"},{"type":"clause","id":"sec-object-type","titleHTML":"The Object Type","number":"6.1.7","referencingIds":["_ref_1","_ref_2"]},{"type":"clause","id":"sec-ecmascript-language-types","titleHTML":"ECMAScript Language Types","number":"6.1"},{"type":"clause","id":"sec-ecmascript-data-types-and-values","titleHTML":"ECMAScript Data Types and Values","number":"6"},{"type":"clause","id":"sec-promise-resolve-functions","titleHTML":"Promise Resolve Functions","number":"27.2.1.3.2"},{"type":"term","term":"%PromiseThenAction%","refId":"sec-%promisethenaction%"},{"type":"clause","id":"sec-%promisethenaction%","title":"%PromiseThenAction% ( onFulfilled, onRejected )","titleHTML":"%PromiseThenAction% ( <var>onFulfilled</var>, <var>onRejected</var> )","number":"27.2.1.3.3","referencingIds":["_ref_0","_ref_3","_ref_4"]},{"type":"clause","id":"sec-createresolvingfunctions","titleHTML":"CreateResolvingFunctions","number":"27.2.1.3"},{"type":"clause","id":"sec-promise-abstract-operations","titleHTML":"Promise Abstract Operations","number":"27.2.1"},{"type":"clause","id":"sec-promise-objects","titleHTML":"Promise Objects","number":"27.2"},{"type":"clause","id":"sec-control-abstraction-objects","titleHTML":"Control Abstraction Objects","number":"27"},{"type":"clause","id":"sec-copyright-and-software-license","title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A"}]}`);
 ;let usesMultipage = false</script><style>:root {
   --foreground-color: #111;
   --background-color: #fff;
@@ -1916,6 +1923,23 @@ h1.shortname { display: none; }
 
 body.oldtoc {
   margin: 0 auto;
+}
+
+#metadata-block {
+  margin: 4em 0;
+  padding: 10px;
+  border: 1px solid #ee8421;
+}
+
+#metadata-block h1 {
+  font-size: 1.5em;
+  margin-top: 0;
+}
+
+#metadata-block > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 span[aria-hidden='true'] {
@@ -2239,7 +2263,7 @@ emu-oneof {
 }
 
 emu-nt {
-  display: inline-block;
+  display: inline;
   font-style: italic;
   white-space: nowrap;
   text-indent: 0;
@@ -2579,7 +2603,7 @@ table.real-table th {
 }
 
 emu-table td {
-  background: transparent;
+  background: var(--background-color);
 }
 
 td[colspan]:not([colspan="1"]), th[colspan]:not([colspan="1"]) {
@@ -2686,7 +2710,7 @@ tr.del > td {
   height: 100vh;
   max-width: 500px;
   box-sizing: border-box;
-  background: var(--control-background-color);
+  background-color: var(--control-background-color);
   overflow: hidden;
   transition: opacity 0.1s linear;
   padding: 0 5px;
@@ -3127,7 +3151,7 @@ li.menu-search-result-term::before {
 
 .toolbox::after {
   border-color: var(--toolbox-tail-background-outside-color);
-  border-top-color: var(--control-border-color);
+  border-top-color: var(--control-background-color);
   border-width: 10px;
   margin-left: -10px;
 }
@@ -3144,7 +3168,7 @@ li.menu-search-result-term::before {
   left: 0;
   right: 0;
   display: none;
-  background: var(--control-background-color);
+  background-color: var(--control-background-color);
   z-index: 1;
 }
 
@@ -3185,17 +3209,6 @@ li.menu-search-result-term::before {
   padding-right: 5px;
 }
 
-emu-normative-optional {
-  display: block;
-}
-
-emu-normative-optional::before {
-  display: block;
-  color: var(--attributes-tag-foreground-color);
-  content: "NORMATIVE OPTIONAL";
-}
-
-emu-normative-optional,
 [normative-optional],
 [deprecated],
 [legacy] {
@@ -3228,7 +3241,7 @@ emu-normative-optional,
   outline: solid 10000px var(--control-dialog-fade-color);
   border-radius: 5px;
   border-width: 1px 1px 0 1px;
-  background: var(--control-background-color);
+  background-color: var(--control-background-color);
   display: none;
 }
 
@@ -3256,6 +3269,7 @@ emu-normative-optional,
 
 #ecma-logo {
   background: var(--figure-background);
+  width: 500px;
 }
 </style><style>@media print {
 @font-face {
@@ -3329,6 +3343,7 @@ emu-normative-optional,
 
 :root {
   --page-number-style: decimal;
+  -prince-change-line-breaks-for-pagination: yes; /* see https://www.princexml.com/doc/prince-for-books/#pagination-fine-tuning */
 }
 
 @page {
@@ -3337,16 +3352,16 @@ emu-normative-optional,
   margin-bottom: 20mm;
   margin-inside: 19mm;
   margin-outside: 13mm;
-  -prince-page-fill: prefer-fill;
+  -prince-page-fill: prefer-balance; /* see https://www.princexml.com/doc/prince-for-books/#the-property--prince-page-fill */
 
-  /* Uncomment when producing WIP versions of final standards */
+  /* Uncomment when producing WIP versions of final standards, see https://www.princexml.com/doc/paged/#page-regions */
   /*
   @prince-overlay {
     color: rgba(0,0,0,0.15);
-    content: "WORK IN PROGRESS";
+    content: "DRAFT";
     font-family: Arial;
     font-weight: bolder;
-    font-size: 100pt;
+    font-size: 200pt;
     transform: rotate(-60deg);
   }
   */
@@ -3456,7 +3471,7 @@ body {
   line-height: 1.15;
 }
 
-h1, h2, h3, h4, h5, h6 { -prince-bookmark-level: none }
+h1, h2, h3, h4, h5, h6 { -prince-bookmark-level: none } /* see https://www.princexml.com/doc/prince-output/#pdf-bookmarks */
 
 .copyright-notice + h1.title {
   break-before: recto;
@@ -3476,13 +3491,22 @@ p {
   text-wrap: pretty;
   overflow-wrap: break-word;
   hyphens: auto;
-  orphans: 2;
-  widows: 2;
+  orphans: 2, -prince-prefer 3; /* see https://www.princexml.com/doc/prince-for-books/#pagination-goals */
+  widows: 2, -prince-prefer 3;
 }
 
 h1 {
   text-wrap: balance;
   line-height: 1.4;
+}
+
+pre:has(> code) {
+  margin: 0;
+}
+
+p + pre:has(+ p) {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 emu-alg {
@@ -3523,14 +3547,6 @@ emu-alg ol li:last-child {
   break-after: initial; /* it's okay to break after the last item in a list, even if it's also the first item in the list */
 }
 
-emu-normative-optional emu-clause[id] {
-  margin-top: 0;
-}
-
-emu-normative-optional emu-alg > ol {
-  margin-bottom: 0;
-}
-
 emu-note {
   gap: initial;
   justify-content: space-between;
@@ -3539,6 +3555,10 @@ emu-note {
 emu-note .note {
   font-size: 9pt;
   min-width: 4.5em;
+}
+
+emu-note table td {
+  background-color: white;
 }
 
 emu-note p,
@@ -3569,7 +3589,6 @@ emu-intro, emu-clause, emu-annex {
 }
 
 emu-clause p:first-of-type {
-  margin-bottom: 0;
   orphans: 3;
 }
 
@@ -3689,7 +3708,7 @@ caption, table > figcaption {
 }
 
 caption {
-  -prince-caption-page: first;
+  -prince-caption-page: first; /* see https://www.princexml.com/doc/css-props/#prop-prince-caption-page */
 }
 
 /* do not break inside of small tables */
@@ -3728,6 +3747,11 @@ emu-figure img {
   margin-top: 1ex;
   max-width: 100%;
   height: auto;
+}
+
+.attributes-tag {
+  break-before: avoid-page;
+  break-after: avoid-page;
 }
 
 #spec-container {
@@ -3825,8 +3849,8 @@ emu-annex > h1 .secnum {
   border: 1px solid black;
   padding: 1em;
   page: copyright;
-  page-break-before: always;
-  page-break-after: always;
+  break-before: page;
+  break-after: page;
 }
 
 .secnum {
@@ -3954,23 +3978,90 @@ p.ECMAaddress {
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120" width="54" height="54">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins<button class="unpin-all">clear</button></div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-demo-clause" title="This is an emu-clause"><span class="secnum">1</span> This is an emu-clause</a></li><li><span class="item-toggle-none"></span><a href="#sec-is-accepted" title="IsAccepted ( proposal )"><span class="secnum">2</span> IsAccepted ( <var>proposal</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License">Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage -1 Draft / June 2, 2025</h1><h1 class="title">Proposal Title Goes Here</h1>
+    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins<button class="unpin-all">clear</button></div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values"><span class="secnum">6</span> ECMAScript Data Types and Values</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-ecmascript-language-types" title="ECMAScript Language Types"><span class="secnum">6.1</span> ECMAScript Language Types</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-object-type" title="The Object Type"><span class="secnum">6.1.7</span> The Object Type</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-well-known-intrinsic-objects" title="Well-Known Intrinsic Objects"><span class="secnum">6.1.7.4</span> Well-Known Intrinsic Objects</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-control-abstraction-objects" title="Control Abstraction Objects"><span class="secnum">27</span> Control Abstraction Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-promise-objects" title="Promise Objects"><span class="secnum">27.2</span> Promise Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-promise-abstract-operations" title="Promise Abstract Operations"><span class="secnum">27.2.1</span> Promise Abstract Operations</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-createresolvingfunctions" title="CreateResolvingFunctions"><span class="secnum">27.2.1.3</span> CreateResolvingFunctions</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-promise-resolve-functions" title="Promise Resolve Functions"><span class="secnum">27.2.1.3.2</span> Promise Resolve Functions</a></li><li><span class="item-toggle-none"></span><a href="#sec-%promisethenaction%" title="%PromiseThenAction% ( onFulfilled, onRejected )"><span class="secnum">27.2.1.3.3</span> %PromiseThenAction% ( <var>onFulfilled</var>, <var>onRejected</var> )</a></li></ol></li></ol></li></ol></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License">Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 0 Draft / September 19, 2025</h1><h1 class="title">Native Promise Adoption</h1>
 
-<emu-clause id="sec-demo-clause">
-  <h1><span class="secnum">1</span> This is an emu-clause</h1>
-  <p>This is an algorithm:</p>
-  <emu-alg><ol><li>Let <var>proposal</var> be <emu-val>undefined</emu-val>.</li><li>If <emu-xref aoid="IsAccepted" id="_ref_0"><a href="#sec-is-accepted">IsAccepted</a></emu-xref>(<var>proposal</var>) is <emu-val>true</emu-val>, then<ol><li>Let <var>stage</var> be <emu-val>0</emu-val><sub>ℤ</sub>.</li></ol></li><li>Else,<ol><li>Let <var>stage</var> be <emu-val>-1</emu-val><sub>ℤ</sub>.</li></ol></li><li>Return ?&nbsp;<emu-xref aoid="ToString"><a href="https://tc39.es/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>stage</var>).</li></ol></emu-alg>
+<emu-clause id="sec-ecmascript-data-types-and-values" number="6">
+  <h1><span class="secnum">6</span> ECMAScript Data Types and Values</h1>
+
+  <emu-clause id="sec-ecmascript-language-types" number="1">
+    <h1><span class="secnum">6.1</span> ECMAScript Language Types</h1>
+
+    <emu-clause id="sec-object-type" number="7">
+      <h1><span class="secnum">6.1.7</span> The Object Type</h1>
+
+      <emu-clause id="sec-well-known-intrinsic-objects" number="4">
+        <h1><span class="secnum">6.1.7.4</span> Well-Known Intrinsic Objects</h1>
+        <emu-table id="table-well-known-intrinsic-objects" caption="Well-Known Intrinsic Objects"><figure><figcaption>Table 1: Well-Known Intrinsic Objects</figcaption>
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Intrinsic Name
+                </th>
+                <th>
+                  Global Name
+                </th>
+                <th>
+                  ECMAScript Language Association
+                </th>
+              </tr>
+            </thead>
+            <tbody><tr>
+              <td>
+                <ins><emu-xref href="#sec-%promisethenaction%" id="_ref_0"><a href="#sec-%promisethenaction%">%PromiseThenAction%</a></emu-xref></ins>
+              </td>
+              <td>
+              </td>
+              <td>
+                <ins>An internal <emu-xref href="#function-object"><a href="https://tc39.es/ecma262/#function-object">function object</a></emu-xref> for <emu-xref aoid="PerformPromiseThen"><a href="https://tc39.es/ecma262/#sec-performpromisethen">PerformPromiseThen</a></emu-xref></ins>
+              </td>
+            </tr>
+          </tbody></table>
+        </figure></emu-table>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
 </emu-clause>
 
-<emu-clause id="sec-is-accepted" type="abstract operation" aoid="IsAccepted">
-  <h1><span class="secnum">2</span> IsAccepted ( <var>proposal</var> )</h1>
-  <p>The abstract operation IsAccepted takes argument <var>proposal</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns a Boolean. Tells you if the proposal was accepted It performs the following steps when called:</p>
-  <emu-alg><ol><li>If <var>proposal</var> <emu-xref href="#sec-ecmascript-language-types-string-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-string-type">is not a String</a></emu-xref>, or is not accepted, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+<emu-clause id="sec-control-abstraction-objects" number="27">
+  <h1><span class="secnum">27</span> Control Abstraction Objects</h1>
+
+  <emu-clause id="sec-promise-objects" number="2">
+    <h1><span class="secnum">27.2</span> Promise Objects</h1>
+
+    <emu-clause id="sec-promise-abstract-operations" number="1">
+      <h1><span class="secnum">27.2.1</span> Promise Abstract Operations</h1>
+
+      <emu-clause id="sec-createresolvingfunctions" type="abstract operation" number="3">
+        <h1><span class="secnum">27.2.1.3</span> CreateResolvingFunctions</h1>
+
+        <emu-clause id="sec-promise-resolve-functions" number="2">
+          <h1><span class="secnum">27.2.1.3.2</span> Promise Resolve Functions</h1>
+          <p>A promise resolve function is an anonymous built-in function that has <var class="field">[[Promise]]</var> and <var class="field">[[AlreadyResolved]]</var> internal slots.</p>
+          <p>When a promise resolve function is called with argument <var>resolution</var>, the following steps are taken:</p>
+          <emu-alg><ol><li>Let <var>F</var> be the <emu-xref href="#active-function-object"><a href="https://tc39.es/ecma262/#active-function-object">active function object</a></emu-xref>.</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>F</var> has a <var class="field">[[Promise]]</var> internal slot whose value <emu-xref href="#sec-object-type" id="_ref_1"><a href="#sec-object-type">is an Object</a></emu-xref>.</li><li>Let <var>promise</var> be <var>F</var>.<var class="field">[[Promise]]</var>.</li><li>Let <var>alreadyResolved</var> be <var>F</var>.<var class="field">[[AlreadyResolved]]</var>.</li><li>If <var>alreadyResolved</var>.<var class="field">[[Value]]</var> is <emu-val>true</emu-val>, return <emu-val>undefined</emu-val>.</li><li>Set <var>alreadyResolved</var>.<var class="field">[[Value]]</var> to <emu-val>true</emu-val>.</li><li>If <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>resolution</var>, <var>promise</var>) is <emu-val>true</emu-val>, then<ol><li>Let <var>selfResolutionError</var> be a newly created <emu-val>TypeError</emu-val> object.</li><li>Perform <emu-xref aoid="RejectPromise"><a href="https://tc39.es/ecma262/#sec-rejectpromise">RejectPromise</a></emu-xref>(<var>promise</var>, <var>selfResolutionError</var>).</li><li>Return <emu-val>undefined</emu-val>.</li></ol></li><li>If <var>resolution</var> <emu-xref href="#sec-object-type" id="_ref_2"><a href="#sec-object-type">is not an Object</a></emu-xref>, then<ol><li>Perform <emu-xref aoid="FulfillPromise"><a href="https://tc39.es/ecma262/#sec-fulfillpromise">FulfillPromise</a></emu-xref>(<var>promise</var>, <var>resolution</var>).</li><li>Return <emu-val>undefined</emu-val>.</li></ol></li><li><ins>Let <var>thenAction</var> be <emu-val>null</emu-val>.</ins></li><li><ins>If <emu-xref aoid="IsPromise"><a href="https://tc39.es/ecma262/#sec-ispromise">IsPromise</a></emu-xref>(<var>resolution</var>) is <emu-val>true</emu-val>, then</ins><ol><li><ins><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>resolution</var> is an <emu-xref href="#ordinary-object"><a href="https://tc39.es/ecma262/#ordinary-object">ordinary object</a></emu-xref>.</ins></li><li><ins>Let <var>proto</var> be !&nbsp;<var>resolution</var>.<var class="field">[[GetPrototypeOf]]</var>().</ins></li><li><ins>If <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>proto</var>, <emu-xref href="#sec-properties-of-the-promise-prototype-object"><a href="https://tc39.es/ecma262/#sec-properties-of-the-promise-prototype-object">%Promise.prototype%</a></emu-xref>) is <emu-val>true</emu-val>, set <var>thenAction</var> to <emu-xref href="#sec-%promisethenaction%" id="_ref_3"><a href="#sec-%promisethenaction%">%PromiseThenAction%</a></emu-xref>.</ins></li></ol></li><li><ins>If <var>thenAction</var> is <emu-val>null</emu-val>, then</ins><ol><li>Let <var>then</var> be <emu-xref aoid="Completion"><a href="https://tc39.es/ecma262/#sec-completion-ao">Completion</a></emu-xref>(<emu-xref aoid="Get"><a href="https://tc39.es/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>resolution</var>, <emu-val>"then"</emu-val>)).</li><li>If <var>then</var> is an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>, then<ol><li>Perform <emu-xref aoid="RejectPromise"><a href="https://tc39.es/ecma262/#sec-rejectpromise">RejectPromise</a></emu-xref>(<var>promise</var>, <var>then</var>.<var class="field">[[Value]]</var>).</li><li>Return <emu-val>undefined</emu-val>.</li></ol></li><li><del>Let</del><ins>Set</ins> <var>thenAction</var> <del>be</del><ins>to</ins> <var>then</var>.<var class="field">[[Value]]</var>.</li><li>If <emu-xref aoid="IsCallable"><a href="https://tc39.es/ecma262/#sec-iscallable">IsCallable</a></emu-xref>(<var>thenAction</var>) is <emu-val>false</emu-val>, then<ol><li>Perform <emu-xref aoid="FulfillPromise"><a href="https://tc39.es/ecma262/#sec-fulfillpromise">FulfillPromise</a></emu-xref>(<var>promise</var>, <var>resolution</var>).</li><li>Return <emu-val>undefined</emu-val>.</li></ol></li></ol></li><li>Let <var>thenJobCallback</var> be <emu-xref aoid="HostMakeJobCallback"><a href="https://tc39.es/ecma262/#sec-hostmakejobcallback">HostMakeJobCallback</a></emu-xref>(<var>thenAction</var>).</li><li><ins>NOTE: <var>thenAction</var> may be <emu-xref href="#sec-%promisethenaction%" id="_ref_4"><a href="#sec-%promisethenaction%">%PromiseThenAction%</a></emu-xref>, a value never directly accessible to ECMAScript code.</ins></li><li>Let <var>job</var> be <emu-xref aoid="NewPromiseResolveThenableJob"><a href="https://tc39.es/ecma262/#sec-newpromiseresolvethenablejob">NewPromiseResolveThenableJob</a></emu-xref>(<var>promise</var>, <var>resolution</var>, <var>thenJobCallback</var>).</li><li>Perform <emu-xref aoid="HostEnqueuePromiseJob"><a href="https://tc39.es/ecma262/#sec-hostenqueuepromisejob">HostEnqueuePromiseJob</a></emu-xref>(<var>job</var>.<var class="field">[[Job]]</var>, <var>job</var>.<var class="field">[[Realm]]</var>).</li><li>Return <emu-val>undefined</emu-val>.</li></ol></emu-alg>
+          <p>The <emu-val>"length"</emu-val> property of a promise resolve function is <emu-val>1</emu-val><sub>𝔽</sub>.</p>
+        </emu-clause>
+
+        <emu-clause id="sec-%promisethenaction%">
+          <h1><span class="secnum">27.2.1.3.3</span> %PromiseThenAction% ( <var>onFulfilled</var>, <var>onRejected</var> )</h1>
+          <p>The <dfn tabindex="-1">%PromiseThenAction%</dfn> intrinsic function:</p>
+          <ul>
+            <li>is an anonymous built-in <emu-xref href="#function-object"><a href="https://tc39.es/ecma262/#function-object">function object</a></emu-xref> that is defined once for each <emu-xref href="#realm"><a href="https://tc39.es/ecma262/#realm">realm</a></emu-xref>.</li>
+            <li>is never directly accessible to ECMAScript code.</li>
+            <li>is used by the promise resolve functions to adopt the state of the promise passed as the receiver.</li>
+            <li>performs the following steps when called:</li>
+          </ul>
+          <emu-alg><ol><li>Let <var>promise</var> be the <emu-val>this</emu-val> value.</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <emu-xref aoid="IsPromise"><a href="https://tc39.es/ecma262/#sec-ispromise">IsPromise</a></emu-xref>(<var>promise</var>) is <emu-val>true</emu-val>.</li><li>Return <emu-xref aoid="PerformPromiseThen"><a href="https://tc39.es/ecma262/#sec-performpromisethen">PerformPromiseThen</a></emu-xref>(<var>promise</var>, <var>onFulfilled</var>, <var>onRejected</var>).</li></ol></emu-alg>
+        </emu-clause>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
 </emu-clause><emu-annex id="sec-copyright-and-software-license" back-matter="">
         <h1>Copyright &amp; Software License</h1>
         
         <div class="copyright-notice" id="copyright-notice"><h2>Copyright Notice</h2>
-<p>© 2025 Your Name(s) Here</p>
+<p>© 2025 Mathieu Hofman</p>
 </div>
         <h2>Software License</h2>
         <p>All Software contained in this document ("Software") is protected by copyright and is being made available under the "BSD License", included below. This Software may be subject to third party rights (rights from parties other than Ecma International), including patent rights, and no licenses under such third party rights are granted under this license even if the third party concerned is a member of Ecma International. SEE THE ECMA CODE OF CONDUCT IN PATENT MATTERS AVAILABLE AT <a href="https://ecma-international.org/memento/codeofconduct.htm">https://ecma-international.org/memento/codeofconduct.htm</a> FOR INFORMATION REGARDING THE LICENSING OF PATENT CLAIMS THAT ARE REQUIRED TO IMPLEMENT ECMA INTERNATIONAL STANDARDS.</p>
