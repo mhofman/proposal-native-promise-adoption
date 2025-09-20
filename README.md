@@ -29,7 +29,7 @@ The Promises/A+ specification allows and actually [expects promise implementatio
 
 This proposal implements that adoption, for native promises that are a base promise identified as having a `%Promise.prototype%` proto. This matches the intent of `Await` and `PromiseResolve` to continue using the `.then` mechanism for derived promises, and the proposed semantics of https://github.com/tc39/ecma262/pull/3689 to use a prototype based check not subject to pollution.
 
-If wholesale adoption through resolve functions is not web compatible, the proposal would pivot to at least changing the semantics of `return` in async functions to perform an adoption (solving issue https://github.com/tc39/ecma262/issues/2770).
+If wholesale adoption through resolve functions is not web compatible, the proposal would pivot to at least changing the semantics of `return` in async functions to perform an adoption (solving issue https://github.com/tc39/ecma262/issues/2770). We could also investigate opt-in signals from the application, either implicit (`async` code parsed), or explicit.
 
 ## Relation to other PRs and proposals
 
@@ -37,19 +37,33 @@ Combined with https://github.com/tc39/ecma262/pull/3689, this proposal guarantee
 
 This proposal does not change the way non promise thenables are handled, including when the resolution values are "unexpected thenables" (see [thenable curtailment proposal](https://github.com/tc39/proposal-thenable-curtailment)). It does however enable some mitigations such as guaranteeing that if a thenable fulfillment is ever possible, such fulfillment value would be adopted through a chain of native promises without unwrapping.
 
-This PR does not make any changes to the number of tick / jobs for resolving promises, leaving that potential optimization to the existing [faster promise adoption proposal](https://github.com/tc39/proposal-faster-promise-adoption). It does reduce the scope of that proposal to focus on the number of jobs observable only by counting ticks when adopting promises, and potentially to better detect promise resolution cycles.
+This PR does not make any changes to the number of tick / jobs for resolving promises, leaving that potential optimization to the existing [faster promise adoption proposal](https://github.com/tc39/proposal-faster-promise-adoption). It does reduce the scope of that proposal to focus on the number of jobs observable only by counting ticks when adopting promises, and potentially to better detect promise resolution cycles. Without normative adoption, that proposal would need to disable any optimization when `Promise.prototype.then` is polluted, effectively considering native promises as mere thenables.
 
 ## Web compatibility
 
-Code today already cannot reliably rely on hijacking a promise `.then` to detect when the outcome of a promise is used, since `await` performs an internal `PerformPromiseThen`. However there seems to be some applications that rely on transpilation of async/await to avoid this adoption behavior. Some libraries like [`zone.js`](https://www.npmjs.com/package/zone.js) do rely on hijacking `Promise.prototype.then`, and while being deprecated, they are still widely used on the web.
+### Observable effects of the proposed change
 
-For confirmation, we could instrument an existing implementation to detect how often a custom `.then` behavior would be ignored by this proposed promise adoption. If the resolution value has a `.then` function, implementations would need to check whether the resolution is a native promise with a `%Promise.prototype%` proto. This defines the set of "adoptable promises". Of this set the affected cases would be if the `then` function does not match `%Promise.prototype.then%`, or if obtaining the `then` function triggered user code.
+Besides the `Promise` related functions (resolvers and helpers like `Promise.all`), there are 2 places in the spec that invoke the Promise resolve functions with a user controlled value which may be a native promise subject to adoption:
+- [`NewPromiseReactionJob`](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-newpromisereactionjob), for the assimilation of promise reaction results into the chained promise (aka `promise.then(() => Promise.resolve(42))`)
+- [`AsyncBlockStart`](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-asyncblockstart) for the assimilation of the result value of an async function (aka `async () => Promise.resolve(42)`)
 
-Alternatives may be to reduce the scope of promise adoption to syntax directed operations such as `return` in async functions, or require an opt-in from the application.
+While the spec and host can themselves add promise reactions directly through `PerformPromiseThen`, in the 262 case, it never does so with a handler that will return a native promise (or for that matter that has a chained promise result), except for the `%Promise.prototype.then%` case. A pollution of `Promise.prototype.then` would interfere before we even got to the potential adoption point.
+
+As such, on the 262 side, there only remains the result value of `async` function where a pollution of `Promise.prototype.then` can surprisingly interfere in the adoption of a native promise value.
+
+### Expected impact
+
+Code today already cannot reliably rely on hijacking a promise `.then` to detect when the outcome of a native promise is used, since `await` amongst other operations perform an internal `PerformPromiseThen`. 
+
+None-the-less, some libraries like [Angular's `zone.js`](https://github.com/angular/angular/tree/main/packages/zone.js) replace the global `Promise` and hijack `Promise.prototype.then`. Applications that use such libraries must transpile async code to avoid some of the native adoption points already existing in the spec. If a native promise is encountered (from some host or other intrinsic API), user code will simply perform a `.then` on them, which is where the `Promise.prototype.then` [hijack](https://github.com/angular/angular/blob/0a4ad9867b382a785b97f73d90b05bac0f266c89/packages/zone.js/lib/common/promise.ts#L603-L608) comes in to transform the handling of these promises into a zone aware promise. In the case of zone.js at least, they do not seem to rely on this mechanism to track when a native resolver adopts a native promise.
+
+### Measurements
+
+For confirmation, engines should instrument their existing implementation to detect how often a custom `.then` behavior would be ignored by this proposed promise adoption. If the resolution value has a `.then` function (Step 12/13 of the [Promise Resolve Functions](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-promise-resolve-functions)), implementations would need to check whether the resolution is a native promise with a `%Promise.prototype%` proto. This defines the set of "adoptable promises". Of this set the affected cases would be if the `thenAction` function does not match `%Promise.prototype.then%`, or if obtaining the `then` function (in step 9) triggered user code.
 
 ## Userland "safe" promise capability
 
-It is possible to leverage the adoption semantics in await syntax to create a `SafePromise` constructor whose resolver does not trigger the `.then` machinery for native promises.
+It is possible to leverage the adoption semantics of the `await` syntax to create a `SafePromise` constructor whose resolver does not trigger the `.then` machinery for native promises.
 
 ```js
 const makePromiseKit = Promise.withResolvers.bind(Promise);
@@ -80,6 +94,6 @@ Object.setPrototypeOf(SafePromise, Promise);
 Object.defineProperty(SafePromise, 'prototype', {value: Promise.prototype, writable: false});
 ```
 
-This however wouldn't affect promise capabilities internal to the spec or the host that are created directly from the `%Promise%` constructor.
+This however wouldn't affect promise capabilities internal to the spec or the host that are created directly from the `%Promise%` constructor, including adoption of reaction results into chained promises, or the result value of `async` functions.
 
 Some intrinsics rely on a regular species mechanism to construct promise capabilities for their results, and would only be affected if `%Promise.prototype%.constructor` was replaced by this `SafePromise` constructor.
