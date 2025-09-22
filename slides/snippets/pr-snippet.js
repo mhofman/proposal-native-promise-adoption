@@ -13,13 +13,13 @@ Promise.prototype.constructor = Promise.bind(null);
 //#endregion
 
 //#region user-not-exploited
-const p = Promise.resolve(42);
-await p; // No console output, pollution ineffective
+const getAnswer = async () => 42;
+await getAnswer(); // No console output, pollution ineffective
 //#endregion
 
 //#region user-exploited
-const p = Promise.resolve(42);
-await p; // "fulfilled 42", pollution interfered 
+const getAnswer = async () => 42;
+await getAnswer(); // "fulfilled 42", pollution interfered 
 //#endregion
 
 //#region promise-resolve
